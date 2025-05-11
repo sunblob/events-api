@@ -71,3 +71,5 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 -   Requires header Authorization: Bearer <token>
 -   Invalidates the token (logout)
+
+test
