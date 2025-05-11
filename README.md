@@ -1,73 +1,165 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Проект
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Основные команды Laravel
 
-## About Laravel
+### Миграции
+[Документация по миграциям](https://laravel.com/docs/migrations)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Процесс работы:**
+1. Создайте новую миграцию:
+   ```bash
+   php artisan make:migration create_table_name_table
+   ```
+2. Отредактируйте файл миграции в папке database/migrations.
+3. Примените миграции:
+   ```bash
+   php artisan migrate
+   ```
+4. Для отката последней миграции используйте:
+   ```bash
+   php artisan migrate:rollback
+   ```
 
--   [Simple, fast routing engine](https://laravel.com/docs/routing).
--   [Powerful dependency injection container](https://laravel.com/docs/container).
--   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
--   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
--   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
--   [Robust background job processing](https://laravel.com/docs/queues).
--   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Сидеры
+[Документация по сидерам](https://laravel.com/docs/seeding)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Процесс работы:**
+1. Создайте сидер:
+   ```bash
+   php artisan make:seeder UsersTableSeeder
+   ```
+2. Заполните метод run() в созданном файле сидера (database/seeders).
+3. Запустите сидеры:
+   ```bash
+   php artisan db:seed
+   ```
+4. Для запуска миграций и сидеров вместе:
+   ```bash
+   php artisan migrate --seed
+   ```
 
-## Learning Laravel
+### JWT Аутентификация
+[Документация по JWT (jwt-auth)](https://jwt-auth.readthedocs.io/en/develop/)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Процесс работы:**
+1. После установки пакета сгенерируйте секретный ключ:
+   ```bash
+   php artisan jwt:secret
+   ```
+2. Используйте стандартные методы аутентификации для работы с токенами.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Генерация моделей, контроллеров, ресурсов
+[Документация по моделям](https://laravel.com/docs/eloquent), [Контроллерам](https://laravel.com/docs/controllers), [Ресурсам](https://laravel.com/docs/eloquent-resources)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Процесс работы:**
+1. Создайте модель:
+   ```bash
+   php artisan make:model ModelName
+   ```
+2. Создайте контроллер:
+   ```bash
+   php artisan make:controller ControllerName
+   ```
+3. Создайте ресурс:
+   ```bash
+   php artisan make:resource ResourceName
+   ```
+4. Используйте сгенерированные классы для построения бизнес-логики и API.
 
-## Laravel Sponsors
+### Очистка кэша
+[Документация по кэшу](https://laravel.com/docs/cache)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Процесс работы:**
+- После изменения конфигурации, маршрутов или других параметров рекомендуется очищать соответствующий кэш:
+  - Очистить кэш приложения:
+    ```bash
+    php artisan cache:clear
+    ```
+  - Очистить кэш маршрутов:
+    ```bash
+    php artisan route:clear
+    ```
+  - Очистить кэш конфигурации:
+    ```bash
+    php artisan config:clear
+    ```
 
-### Premium Partners
-
--   **[Vehikl](https://vehikl.com/)**
--   **[Tighten Co.](https://tighten.co)**
--   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
--   **[64 Robots](https://64robots.com)**
--   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
--   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
--   **[Redberry](https://redberry.international/laravel-development/)**
--   **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+---
 
 ## API
 
-### POST /api/login
+### Аутентификация
 
--   Accepts: `email`, `password`
--   Returns: JWT token and user data
+#### POST /api/login
+Авторизация пользователя по email и паролю. Возвращает JWT токен.
 
-### POST /api/logout
+**Параметры запроса:**
+- `email` (string, required)
+- `password` (string, required)
 
--   Requires header Authorization: Bearer <token>
--   Invalidates the token (logout)
+**Пример запроса:**
+```json
+{
+  "email": "user@example.com",
+  "password": "password"
+}
+```
+
+**Пример ответа:**
+```json
+{
+  "access_token": "<jwt_token>",
+  "token_type": "bearer",
+  "expires_in": 3600
+}
+```
+
+---
+
+#### POST /api/logout
+Выход пользователя. Требуется авторизация (JWT токен в заголовке Authorization).
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "message": "Successfully logged out"
+}
+```
+
+---
+
+#### GET /api/me
+Получить данные текущего аутентифицированного пользователя.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "id": 1,
+  "name": "User Name",
+  "email": "user@example.com",
+  ...
+}
+```
+
+---
+
+#### POST /api/refresh
+Обновить JWT токен. Требуется авторизация (JWT токен в заголовке Authorization).
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "access_token": "<new_jwt_token>",
+  "token_type": "bearer",
+  "expires_in": 3600
+}
+```
