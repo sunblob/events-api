@@ -64,10 +64,10 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ### POST /api/login
 
--   Принимает: `email`, `password`
--   Возвращает: JWT токен и данные пользователя
+-   Accepts: `email`, `password`
+-   Returns: JWT token and user data
 
 ### POST /api/logout
 
--   Требует заголовок Authorization: Bearer <token>
--   Инвалидирует токен (выход из системы)
+-   Requires header Authorization: Bearer <token>
+-   Invalidates the token (logout)
