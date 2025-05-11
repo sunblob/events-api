@@ -19,14 +19,18 @@ class UserSeeder extends Seeder
                 'name' => 'Admin User',
                 'email' => 'admin@example.com',
                 'password' => bcrypt('password'),
-                'role' => 'admin'
+                'role' => 'admin',
+                'created_at' => now(),
+                'updated_at' => now()
             ],
 
             [
                 'name' => 'Editor User',
                 'email' => 'redactor@example.com',
                 'password' => bcrypt('password'),
-                'role' => 'editor'
+                'role' => 'editor',
+                'created_at' => now(),
+                'updated_at' => now()
             ]
         ]);
     }
