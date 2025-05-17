@@ -10,6 +10,7 @@ use App\Exceptions\NotFoundError;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Exceptions\ForbiddenAdminActionException;
 
 final class UserController extends Controller
 {
@@ -17,7 +18,7 @@ final class UserController extends Controller
     {
         $user = Auth::user();
         if (!$user || $user->role !== 'admin') {
-            return response()->json(['message' => 'Forbidden'], 403);
+            throw new ForbiddenException('Forbidden: admin access required');
         }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -42,7 +43,7 @@ final class UserController extends Controller
     {
         $user = Auth::user();
         if (!$user || $user->role !== 'admin') {
-            return response()->json(['message' => 'Forbidden'], 403);
+            throw new ForbiddenException('Forbidden: admin access required');
         }
         $user = User::find($id);
 
@@ -78,7 +79,7 @@ final class UserController extends Controller
     {
         $user = Auth::user();
         if (!$user || $user->role !== 'admin') {
-            return response()->json(['message' => 'Forbidden'], 403);
+            throw new ForbiddenException('Forbidden: admin access required');
         }
         $user = User::find($id);
 
