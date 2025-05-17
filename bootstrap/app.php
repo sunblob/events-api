@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
 
-            if ($e instanceof NotFoundError) {
+            if ($e instanceof NotFoundError || $e instanceof ForbiddenException) {
                 return response()->json([
                     'message' => $e->getMessage(),
                     'error_line' => $e->getFile() . ':' . $e->getLine(),

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,17 +7,18 @@ use App\Models\User;
 use App\Exceptions\NotFoundError;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use App\Exceptions\ForbiddenAdminActionException;
+use App\Exceptions\ForbiddenException;
 
 final class UserController extends Controller
 {
     public function store(Request $request)
     {
-        $user = Auth::user();
+        $user = auth()->user();
+
         if (!$user || $user->role !== 'admin') {
             throw new ForbiddenException('Forbidden: admin access required');
         }
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -41,10 +40,12 @@ final class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = Auth::user();
+        $user = auth()->user();
+
         if (!$user || $user->role !== 'admin') {
             throw new ForbiddenException('Forbidden: admin access required');
         }
+
         $user = User::find($id);
 
         if (!$user) {
@@ -77,10 +78,12 @@ final class UserController extends Controller
 
     public function destroy(string $id)
     {
-        $user = Auth::user();
+        $user = auth()->user();
+
         if (!$user || $user->role !== 'admin') {
             throw new ForbiddenException('Forbidden: admin access required');
         }
+
         $user = User::find($id);
 
         if (!$user) {
