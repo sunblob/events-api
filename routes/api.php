@@ -6,6 +6,7 @@ use App\Http\Controllers\EventYearController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\UserController;
 
 Route::post('login', [AuthController::class, 'login']);
 
@@ -29,6 +30,9 @@ Route::prefix('files')->group(function () {
   Route::delete('{filename}', [FileController::class, 'delete']);
 });
 
+Route::post('users', [UserController::class, 'store']);
+Route::put('users/{id}', [UserController::class, 'update']);
+Route::delete('users/{id}', [UserController::class, 'destroy']);
 
 Route::middleware('auth:api')->group(function () {
   Route::get('me', [AuthController::class, 'me']);
