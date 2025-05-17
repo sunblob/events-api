@@ -9,11 +9,16 @@ use App\Models\User;
 use App\Exceptions\NotFoundError;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
 final class UserController extends Controller
 {
     public function store(Request $request)
     {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -35,6 +40,10 @@ final class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
         $user = User::find($id);
 
         if (!$user) {
@@ -67,6 +76,10 @@ final class UserController extends Controller
 
     public function destroy(string $id)
     {
+        $user = Auth::user();
+        if (!$user || $user->role !== 'admin') {
+            return response()->json(['message' => 'Forbidden'], 403);
+        }
         $user = User::find($id);
 
         if (!$user) {
