@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Str;
 use App\Models\Page;
-use App\Exceptions\NotFoundError;
+use App\Exceptions\NotFoundException;
 
 class PageController extends Controller
 {
@@ -24,7 +24,7 @@ class PageController extends Controller
         $page = Page::find($id);
 
         if (!$page) {
-            throw new NotFoundError('Page not found');
+            throw new NotFoundException('Page not found');
         }
 
         $page->load('files');
@@ -59,7 +59,7 @@ class PageController extends Controller
         $page = Page::find($id);
 
         if (!$page) {
-            throw new NotFoundError('Page not found');
+            throw new NotFoundException('Page not found');
         }
 
         $validated = $request->validate([
@@ -95,7 +95,7 @@ class PageController extends Controller
         $page = Page::find($id);
 
         if (!$page) {
-            throw new NotFoundError('Page not found');
+            throw new NotFoundException('Page not found');
         }
 
         $deleted = $page->delete();

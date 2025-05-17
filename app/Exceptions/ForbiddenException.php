@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Exceptions;
 
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Exception;
 
-final class ForbiddenException extends HttpException
+final class ForbiddenException extends Exception
 {
-    public function __construct(string $message)
+    public function __construct(string $message = 'Forbidden', int $code = 403)
     {
-        parent::__construct(403, $message);
+        parent::__construct($message, $code);
     }
 } 

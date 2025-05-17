@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Exceptions\NotFoundError;
+use App\Exceptions\NotFoundException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use App\Exceptions\ForbiddenException;
@@ -26,7 +26,7 @@ final class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            throw new NotFoundError('User not found');
+            throw new NotFoundException('User not found');
         }
 
         return response()->json([
@@ -60,7 +60,7 @@ final class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            throw new NotFoundError('User not found');
+            throw new NotFoundException('User not found');
         }
 
         $validated = $request->validate([
@@ -92,7 +92,7 @@ final class UserController extends Controller
         $user = User::find($id);
 
         if (!$user) {
-            throw new NotFoundError('User not found');
+            throw new NotFoundException('User not found');
         }
 
         $deleted = $user->delete();
