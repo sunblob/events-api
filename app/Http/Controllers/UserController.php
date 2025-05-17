@@ -8,17 +8,34 @@ use App\Exceptions\NotFoundError;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use App\Exceptions\ForbiddenException;
+use App\Http\Controllers\Controller;
 
 final class UserController extends Controller
 {
+    public function index()
+    {
+        $users = User::all();
+
+        return response()->json([
+            'data' => $users,
+        ]);
+    }
+
+    public function show(string $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            throw new NotFoundError('User not found');
+        }
+
+        return response()->json([
+            'data' => $user,
+        ]);
+    }
+
     public function store(Request $request)
     {
-        $user = auth()->user();
-
-        if (!$user || $user->role !== 'admin') {
-            throw new ForbiddenException('Forbidden: admin access required');
-        }
-        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -40,12 +57,6 @@ final class UserController extends Controller
 
     public function update(Request $request, string $id)
     {
-        $user = auth()->user();
-
-        if (!$user || $user->role !== 'admin') {
-            throw new ForbiddenException('Forbidden: admin access required');
-        }
-
         $user = User::find($id);
 
         if (!$user) {
@@ -78,12 +89,6 @@ final class UserController extends Controller
 
     public function destroy(string $id)
     {
-        $user = auth()->user();
-
-        if (!$user || $user->role !== 'admin') {
-            throw new ForbiddenException('Forbidden: admin access required');
-        }
-
         $user = User::find($id);
 
         if (!$user) {

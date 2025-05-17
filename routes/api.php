@@ -12,15 +12,9 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::get('event-years', [EventYearController::class, 'index']);
 Route::get('event-years/{id}', [EventYearController::class, 'show']);
-Route::post('event-years', [EventYearController::class, 'store']);
-Route::put('event-years/{id}', [EventYearController::class, 'update']);
-Route::delete('event-years/{id}', [EventYearController::class, 'destroy']);
 
 Route::get('pages', [PageController::class, 'index']);
 Route::get('pages/{id}', [PageController::class, 'show']);
-Route::post('pages', [PageController::class, 'store']);
-Route::put('pages/{id}', [PageController::class, 'update']);
-Route::delete('pages/{id}', [PageController::class, 'destroy']);
 
 // File routes
 Route::prefix('files')->group(function () {
@@ -30,12 +24,33 @@ Route::prefix('files')->group(function () {
   Route::delete('{filename}', [FileController::class, 'delete']);
 });
 
-Route::post('users', [UserController::class, 'store']);
-Route::put('users/{id}', [UserController::class, 'update']);
-Route::delete('users/{id}', [UserController::class, 'destroy']);
-
 Route::middleware('auth:api')->group(function () {
   Route::get('me', [AuthController::class, 'me']);
   Route::post('logout', [AuthController::class, 'logout']);
   Route::post('refresh', [AuthController::class, 'refresh']);
+});
+
+Route::middleware(['auth:api', 'admin'])->group(function () {
+  // User routes
+  Route::get('users', [UserController::class, 'index']);
+  Route::get('users/{id}', [UserController::class, 'show']);
+  Route::post('users', [UserController::class, 'store']);
+  Route::put('users/{id}', [UserController::class, 'update']);
+  Route::delete('users/{id}', [UserController::class, 'destroy']);
+
+  // Event year routes
+  Route::post('event-years', [EventYearController::class, 'store']);
+  Route::put('event-years/{id}', [EventYearController::class, 'update']);
+  Route::delete('event-years/{id}', [EventYearController::class, 'destroy']);
+
+  // Page routes
+  Route::post('pages', [PageController::class, 'store']);
+  Route::put('pages/{id}', [PageController::class, 'update']);
+  Route::delete('pages/{id}', [PageController::class, 'destroy']);
+});
+
+Route::middleware(['auth:api', 'editor'])->group(function () {
+  Route::post('pages', [PageController::class, 'store']);
+  Route::put('pages/{id}', [PageController::class, 'update']);
+  Route::delete('pages/{id}', [PageController::class, 'destroy']);
 });
