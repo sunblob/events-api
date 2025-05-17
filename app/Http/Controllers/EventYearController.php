@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotFoundError;
 use App\Models\EventYear;
 use Illuminate\Http\Request;
 
@@ -37,9 +38,7 @@ class EventYearController extends Controller
         $eventYear = EventYear::find($id);
 
         if (!$eventYear) {
-            return response()->json([
-                'message' => 'Event year not found',
-            ], 404);
+            throw new NotFoundError('Event year not found');
         }
 
         $eventYear->load('pages');
@@ -54,9 +53,7 @@ class EventYearController extends Controller
         $eventYear = EventYear::find($id);
 
         if (!$eventYear) {
-            return response()->json([
-                'message' => 'Event year not found',
-            ], 404);
+            throw new NotFoundError('Event year not found');
         }
 
         $validated = $request->validate([
@@ -83,9 +80,7 @@ class EventYearController extends Controller
         $eventYear = EventYear::find($id);
 
         if (!$eventYear) {
-            return response()->json([
-                'message' => 'Event year not found',
-            ], 404);
+            throw new NotFoundError('Event year not found');
         }
 
         $deleted = $eventYear->delete();

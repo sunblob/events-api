@@ -1,9 +1,9 @@
 <?php
 
+use App\Exceptions\NotFoundError;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Exceptions\Handler;
 use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -31,9 +31,18 @@ return Application::configure(basePath: dirname(__DIR__))
                 ], 422);
             }
 
+
+            if ($e instanceof NotFoundError) {
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'error_line' => $e->getFile() . ':' . $e->getLine(),
+                ], $e->getCode());
+            }
+
             return response()->json([
                 'message' => $e->getMessage(),
                 'exception' => class_basename($e),
+                'error_line' => $e->getFile() . ':' . $e->getLine(),
             ], 500);
         });
     })->create();

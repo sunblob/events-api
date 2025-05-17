@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
 use Illuminate\Http\Request;
 use Str;
+use App\Models\Page;
+use App\Exceptions\NotFoundError;
 
 class PageController extends Controller
 {
@@ -23,9 +24,7 @@ class PageController extends Controller
         $page = Page::find($id);
 
         if (!$page) {
-            return response()->json([
-                'message' => 'Page not found',
-            ], 404);
+            throw new NotFoundError('Page not found');
         }
 
         $page->load('files');
@@ -60,9 +59,7 @@ class PageController extends Controller
         $page = Page::find($id);
 
         if (!$page) {
-            return response()->json([
-                'message' => 'Page not found',
-            ], 404);
+            throw new NotFoundError('Page not found');
         }
 
         $validated = $request->validate([
@@ -71,11 +68,11 @@ class PageController extends Controller
             'event_year_id' => 'required|exists:event_years,id',
         ]);
 
-        // $slug = $page->slug;
+        $slug = $page->slug;
 
-        // if (isset($validated['title']) && $validated['title'] !== $page->title) {
-        $slug = Str::slug($validated['title']) . '-' . Str::random(5);
-        // }
+        if (isset($validated['title']) && $validated['title'] !== $page->title) {
+            $slug = Str::slug($validated['title']) . '-' . Str::random(5);
+        }
 
         $updated = $page->update([
             ...$validated,
@@ -98,9 +95,7 @@ class PageController extends Controller
         $page = Page::find($id);
 
         if (!$page) {
-            return response()->json([
-                'message' => 'Page not found',
-            ], 404);
+            throw new NotFoundError('Page not found');
         }
 
         $deleted = $page->delete();
