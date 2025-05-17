@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
 
-class FileController extends Controller
+
+class FileController
 {
     /**
      * Upload a file
@@ -28,7 +30,7 @@ class FileController extends Controller
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $fileName = Str::random(40) . '.' . $extension;
-        
+
         // Store file in the 'public' disk under 'uploads' directory
         $path = $file->storeAs('uploads', $fileName, 'public');
 
@@ -53,7 +55,7 @@ class FileController extends Controller
     public function download($filename)
     {
         $path = 'uploads/' . $filename;
-        
+
         if (!Storage::disk('public')->exists($path)) {
             return response()->json(['error' => 'File not found'], 404);
         }
@@ -69,7 +71,7 @@ class FileController extends Controller
     public function list()
     {
         $files = Storage::disk('public')->files('uploads');
-        
+
         $fileList = collect($files)->map(function ($file) {
             return [
                 'name' => basename($file),
@@ -92,7 +94,7 @@ class FileController extends Controller
     public function delete($filename)
     {
         $path = 'uploads/' . $filename;
-        
+
         if (!Storage::disk('public')->exists($path)) {
             return response()->json(['error' => 'File not found'], 404);
         }
@@ -101,4 +103,4 @@ class FileController extends Controller
 
         return response()->json(['message' => 'File deleted successfully']);
     }
-} 
+}
