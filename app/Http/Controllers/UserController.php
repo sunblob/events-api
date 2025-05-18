@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Exceptions\NotFoundException;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use App\Exceptions\ForbiddenException;
 use App\Http\Controllers\Controller;
 
 final class UserController extends Controller
@@ -107,4 +106,4 @@ final class UserController extends Controller
             'message' => 'User deleted successfully',
         ], 200);
     }
-} 
+}

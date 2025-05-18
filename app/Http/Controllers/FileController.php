@@ -5,17 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Http\Controllers\Controller;
 
 
 class FileController
 {
-    /**
-     * Upload a file
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function upload(Request $request)
     {
         $request->validate([
@@ -46,12 +40,6 @@ class FileController
         ], 201);
     }
 
-    /**
-     * Download a file
-     *
-     * @param string $filename
-     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
-     */
     public function download($filename)
     {
         $path = 'uploads/' . $filename;
@@ -63,11 +51,7 @@ class FileController
         return Storage::disk('public')->download($path);
     }
 
-    /**
-     * List all uploaded files
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
+
     public function list()
     {
         $files = Storage::disk('public')->files('uploads');
