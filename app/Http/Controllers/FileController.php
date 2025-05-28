@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Page;
+use App\Models\File;
+use App\Exceptions\NotFoundException;
 
 
 class FileController
@@ -14,6 +17,7 @@ class FileController
     {
         $request->validate([
             'file' => 'required|file|max:10240', // max 10MB
+            'page_id' => 'nullable|exists:pages,id',
         ]);
 
         if (!$request->hasFile('file')) {
@@ -28,16 +32,60 @@ class FileController
         // Store file in the 'public' disk under 'uploads' directory
         $path = $file->storeAs('uploads', $fileName, 'public');
 
+        // Create file record in database
+        $fileRecord = File::create([
+            'filename' => $fileName,
+            'path' => $path,
+            'mimetype' => $file->getMimeType(),
+            'page_id' => $request->page_id,
+        ]);
+
         return response()->json([
             'message' => 'File uploaded successfully',
             'file' => [
+                'id' => $fileRecord->id,
                 'original_name' => $originalName,
                 'path' => $path,
                 'url' => Storage::url($path),
                 'size' => $file->getSize(),
-                'mime_type' => $file->getMimeType()
+                'mime_type' => $file->getMimeType(),
+                'page_id' => $fileRecord->page_id
             ]
         ], 201);
+    }
+
+    public function attachToPage(Request $request, $fileId)
+    {
+        $request->validate([
+            'page_id' => 'required|exists:pages,id',
+        ]);
+
+        $file = File::find($fileId);
+        if (!$file) {
+            throw new NotFoundException('File not found');
+        }
+
+        $file->update(['page_id' => $request->page_id]);
+
+        return response()->json([
+            'message' => 'File attached to page successfully',
+            'file' => $file
+        ]);
+    }
+
+    public function detachFromPage($fileId)
+    {
+        $file = File::find($fileId);
+        if (!$file) {
+            throw new NotFoundException('File not found');
+        }
+
+        $file->update(['page_id' => null]);
+
+        return response()->json([
+            'message' => 'File detached from page successfully',
+            'file' => $file
+        ]);
     }
 
     public function download($filename)

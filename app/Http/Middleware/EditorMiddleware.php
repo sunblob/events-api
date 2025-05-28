@@ -16,7 +16,7 @@ class EditorMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->user()->role !== 'editor') {
+        if (!in_array(auth()->user()->role, ['editor', 'admin'])) {
             throw new ForbiddenException('Forbidden: editor access required');
         }
 
