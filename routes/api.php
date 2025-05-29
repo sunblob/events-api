@@ -8,7 +8,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
 
-Route::post('login', [AuthController::class, 'login']);
+Route::post('auth/login', [AuthController::class, 'login']);
 
 Route::get('event-years', [EventYearController::class, 'index']);
 Route::get('event-years/{id}', [EventYearController::class, 'show']);
@@ -30,9 +30,9 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-  Route::get('me', [AuthController::class, 'me']);
-  Route::post('logout', [AuthController::class, 'logout']);
-  Route::post('refresh', [AuthController::class, 'refresh']);
+  Route::get('auth/me', [AuthController::class, 'me']);
+  Route::post('auth/logout', [AuthController::class, 'logout']);
+  Route::post('auth/refresh', [AuthController::class, 'refresh']);
 });
 
 Route::middleware(['auth:api', 'admin'])->group(function () {
