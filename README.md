@@ -1,118 +1,118 @@
-# Laravel Проект
+# Laravel Project
 
-## Установка и запуск проекта
+## Installation and Project Setup
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
    ```bash
    git clone <repository-url>
    ```
 
-2. Установите зависимости:
+2. Install dependencies:
    ```bash
    composer install
    ```
 
-3. Скопируйте .env.example в .env и настройте подключение к БД:
+3. Copy .env.example to .env and configure database connection:
    ```bash
    cp .env.example .env
    ```
 
-4. Сгенерируйте ключ приложения:
+4. Generate application key:
    ```bash
    php artisan key:generate
    ```
 
-5. Сгенерируйте JWT ключ:
+5. Generate JWT key:
    ```bash
    php artisan jwt:secret
    ```
 
-6. Запустите миграции с сидерами:
+6. Run migrations with seeders:
    ```bash
    php artisan migrate:fresh --seed
    ```
 
-7. Запустите сервер:
+7. Start the server:
    ```bash
    php artisan serve
    ```
 
-## Основные команды Laravel
+## Main Laravel Commands
 
-### Миграции
-[Документация по миграциям](https://laravel.com/docs/migrations)
+### Migrations
+[Migrations Documentation](https://laravel.com/docs/migrations)
 
-**Процесс работы:**
-1. Создайте новую миграцию:
+**Workflow:**
+1. Create a new migration:
    ```bash
    php artisan make:migration create_table_name_table
    ```
-2. Отредактируйте файл миграции в папке database/migrations.
-3. Примените миграции:
+2. Edit the migration file in the database/migrations folder.
+3. Apply migrations:
    ```bash
    php artisan migrate
    ```
-4. Для отката последней миграции используйте:
+4. To rollback the last migration:
    ```bash
    php artisan migrate:rollback
    ```
 
-### Сидеры
-[Документация по сидерам](https://laravel.com/docs/seeding)
+### Seeders
+[Seeding Documentation](https://laravel.com/docs/seeding)
 
-**Процесс работы:**
-1. Создайте сидер:
+**Workflow:**
+1. Create a seeder:
    ```bash
    php artisan make:seeder UsersTableSeeder
    ```
-2. Заполните метод run() в созданном файле сидера (database/seeders).
-3. Запустите миграции с сидерами:
+2. Fill in the run() method in the created seeder file (database/seeders).
+3. Run migrations with seeders:
    ```bash
    php artisan migrate:fresh --seed
    ```
 
-### JWT Аутентификация
-[Документация по JWT (jwt-auth)](https://jwt-auth.readthedocs.io/en/develop/)
+### JWT Authentication
+[JWT Documentation (jwt-auth)](https://jwt-auth.readthedocs.io/en/develop/)
 
-**Процесс работы:**
-1. После установки пакета сгенерируйте секретный ключ:
+**Workflow:**
+1. After installing the package, generate a secret key:
    ```bash
    php artisan jwt:secret
    ```
-2. Используйте стандартные методы аутентификации для работы с токенами.
+2. Use standard authentication methods for token handling.
 
-### Генерация моделей, контроллеров, ресурсов
-[Документация по моделям](https://laravel.com/docs/eloquent), [Контроллерам](https://laravel.com/docs/controllers), [Ресурсам](https://laravel.com/docs/eloquent-resources)
+### Generating Models, Controllers, Resources
+[Models Documentation](https://laravel.com/docs/eloquent), [Controllers](https://laravel.com/docs/controllers), [Resources](https://laravel.com/docs/eloquent-resources)
 
-**Процесс работы:**
-1. Создайте модель:
+**Workflow:**
+1. Create a model:
    ```bash
    php artisan make:model ModelName
    ```
-2. Создайте контроллер:
+2. Create a controller:
    ```bash
    php artisan make:controller ControllerName
    ```
-3. Создайте ресурс:
+3. Create a resource:
    ```bash
    php artisan make:resource ResourceName
    ```
-4. Используйте сгенерированные классы для построения бизнес-логики и API.
+4. Use generated classes to build business logic and API.
 
-### Очистка кэша
-[Документация по кэшу](https://laravel.com/docs/cache)
+### Cache Clearing
+[Cache Documentation](https://laravel.com/docs/cache)
 
-**Процесс работы:**
-- После изменения конфигурации, маршрутов или других параметров рекомендуется очищать соответствующий кэш:
-  - Очистить кэш приложения:
+**Workflow:**
+- After changing configuration, routes, or other parameters, it's recommended to clear the corresponding cache:
+  - Clear application cache:
     ```bash
     php artisan cache:clear
     ```
-  - Очистить кэш маршрутов:
+  - Clear route cache:
     ```bash
     php artisan route:clear
     ```
-  - Очистить кэш конфигурации:
+  - Clear config cache:
     ```bash
     php artisan config:clear
     ```
@@ -121,18 +121,18 @@
 
 ## API
 
-### Аутентификация и пользователи
+### Authentication and Users
 
 #### POST /api/register
-Регистрация нового пользователя.
+Register a new user.
 
-**Параметры запроса:**
+**Request Parameters:**
 - `name` (string, required)
 - `email` (string, required)
 - `password` (string, required)
 - `password_confirmation` (string, required)
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "message": "User successfully registered",
@@ -145,13 +145,13 @@
 ```
 
 #### POST /api/login
-Авторизация пользователя по email и паролю. Возвращает JWT токен.
+Authenticate user with email and password. Returns JWT token.
 
-**Параметры запроса:**
+**Request Parameters:**
 - `email` (string, required)
 - `password` (string, required)
 
-**Пример запроса:**
+**Example Request:**
 ```json
 {
   "email": "user@example.com",
@@ -159,7 +159,7 @@
 }
 ```
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "access_token": "<jwt_token>",
@@ -171,12 +171,12 @@
 ---
 
 #### POST /api/logout
-Выход пользователя. Требуется авторизация (JWT токен в заголовке Authorization).
+Logout user. Requires authentication (JWT token in Authorization header).
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "message": "Successfully logged out"
@@ -186,12 +186,12 @@
 ---
 
 #### GET /api/me
-Получить данные текущего аутентифицированного пользователя.
+Get current authenticated user data.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "id": 1,
@@ -204,12 +204,12 @@
 ---
 
 #### POST /api/refresh
-Обновить JWT токен. Требуется авторизация (JWT токен в заголовке Authorization).
+Refresh JWT token. Requires authentication (JWT token in Authorization header).
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "access_token": "<new_jwt_token>",
@@ -219,16 +219,16 @@
 ```
 
 #### GET /api/users
-Получение списка пользователей (требуется авторизация админа).
+Get list of users (requires admin authentication).
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Параметры запроса:**
+**Request Parameters:**
 - `page` (integer, optional)
 - `per_page` (integer, optional)
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": [
@@ -247,15 +247,15 @@
 }
 ```
 
-### Годы событий
+### Event Years
 
 #### GET /api/event-years
-Получение списка годов с событиями.
+Get list of years with events.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": [
@@ -271,15 +271,15 @@
 }
 ```
 
-### Страницы
+### Pages
 
 #### GET /api/pages
-Получение списка страниц.
+Get list of pages.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": [
@@ -294,12 +294,12 @@
 ```
 
 #### GET /api/pages/{id}
-Получение конкретной страницы.
+Get specific page.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": {
@@ -313,21 +313,21 @@
 }
 ```
 
-### Файлы
+### Files
 
 #### POST /api/files/upload
-Загрузка файла.
+Upload a file.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 - `Content-Type: multipart/form-data`
 
-**Параметры запроса:**
+**Request Parameters:**
 - `file` (file, required)
-- `type` (string, required) - тип файла (event, page)
-- `entity_id` (integer, required) - ID связанной сущности
+- `type` (string, required) - file type (event, page)
+- `entity_id` (integer, required) - related entity ID
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": {
@@ -341,12 +341,12 @@
 ```
 
 #### GET /api/files/{id}
-Получение информации о файле.
+Get file information.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": {
@@ -361,31 +361,31 @@
 ```
 
 #### DELETE /api/files/{id}
-Удаление файла.
+Delete file.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "message": "File successfully deleted"
 }
 ```
 
-### События
+### Events
 
 #### GET /api/events
-Получение списка всех событий.
+Get list of all events.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Параметры запроса:**
-- `page` (integer, optional) - номер страницы
-- `per_page` (integer, optional) - количество элементов на странице
+**Request Parameters:**
+- `page` (integer, optional) - page number
+- `per_page` (integer, optional) - items per page
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": [
@@ -408,18 +408,18 @@
 ```
 
 #### POST /api/events
-Создание нового события.
+Create new event.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Параметры запроса:**
-- `title` (string, required) - название события
-- `description` (string, required) - описание события
-- `start_date` (datetime, required) - дата и время начала
-- `end_date` (datetime, required) - дата и время окончания
+**Request Parameters:**
+- `title` (string, required) - event title
+- `description` (string, required) - event description
+- `start_date` (datetime, required) - start date and time
+- `end_date` (datetime, required) - end date and time
 
-**Пример запроса:**
+**Example Request:**
 ```json
 {
   "title": "New Event",
@@ -430,12 +430,12 @@
 ```
 
 #### GET /api/events/{id}
-Получение информации о конкретном событии.
+Get specific event information.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "data": {
@@ -451,24 +451,24 @@
 ```
 
 #### PUT /api/events/{id}
-Обновление события.
+Update event.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Параметры запроса:**
+**Request Parameters:**
 - `title` (string, optional)
 - `description` (string, optional)
 - `start_date` (datetime, optional)
 - `end_date` (datetime, optional)
 
 #### DELETE /api/events/{id}
-Удаление события.
+Delete event.
 
-**Заголовки:**
+**Headers:**
 - `Authorization: Bearer <jwt_token>`
 
-**Пример ответа:**
+**Example Response:**
 ```json
 {
   "message": "Event successfully deleted"

@@ -46,6 +46,7 @@ class FileController
                 'id' => $fileRecord->id,
                 'original_name' => $originalName,
                 'path' => $path,
+                'filename' => $fileName,
                 'url' => Storage::url($path),
                 'size' => $file->getSize(),
                 'mime_type' => $file->getMimeType(),
@@ -96,7 +97,19 @@ class FileController
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        return Storage::disk('public')->download($path);
+        return response()->download(Storage::disk('public')->path($path));
+    }
+
+    public function getFile($filename)
+    {
+        $path = 'uploads/' . $filename;
+
+        if (!Storage::disk('public')->exists($path)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+
+        return response()->file(Storage::disk('public')->path($path));
     }
 
 
@@ -108,6 +121,7 @@ class FileController
             return [
                 'name' => basename($file),
                 'path' => $file,
+                'filename' => basename($file),
                 'url' => Storage::url($file),
                 'size' => Storage::disk('public')->size($file),
                 'last_modified' => Storage::disk('public')->lastModified($file)

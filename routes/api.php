@@ -16,13 +16,14 @@ Route::get('event-years/{id}', [EventYearController::class, 'show']);
 Route::get('pages', [PageController::class, 'index']);
 Route::get('pages/{id}', [PageController::class, 'show']);
 
+Route::get('files/list', [FileController::class, 'list']);
+Route::get('files/file/{filename}', [FileController::class, 'getFile']);
+Route::get('files/download/{filename}', [FileController::class, 'download']);
 
 // File routes
 Route::middleware('auth:api')->group(function () {
   Route::prefix('files')->group(function () {
     Route::post('upload', [FileController::class, 'upload']);
-    Route::get('list', [FileController::class, 'list']);
-    Route::get('download/{filename}', [FileController::class, 'download']);
     Route::delete('{filename}', [FileController::class, 'delete']);
     Route::post('{fileId}/attach', [FileController::class, 'attachToPage']);
     Route::post('{fileId}/detach', [FileController::class, 'detachFromPage']);
