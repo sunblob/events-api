@@ -1,5 +1,42 @@
 # Laravel Проект
 
+## Установка и запуск проекта
+
+1. Клонируйте репозиторий:
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. Установите зависимости:
+   ```bash
+   composer install
+   ```
+
+3. Скопируйте .env.example в .env и настройте подключение к БД:
+   ```bash
+   cp .env.example .env
+   ```
+
+4. Сгенерируйте ключ приложения:
+   ```bash
+   php artisan key:generate
+   ```
+
+5. Сгенерируйте JWT ключ:
+   ```bash
+   php artisan jwt:secret
+   ```
+
+6. Запустите миграции с сидерами:
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
+
+7. Запустите сервер:
+   ```bash
+   php artisan serve
+   ```
+
 ## Основные команды Laravel
 
 ### Миграции
@@ -29,13 +66,9 @@
    php artisan make:seeder UsersTableSeeder
    ```
 2. Заполните метод run() в созданном файле сидера (database/seeders).
-3. Запустите сидеры:
+3. Запустите миграции с сидерами:
    ```bash
-   php artisan db:seed
-   ```
-4. Для запуска миграций и сидеров вместе:
-   ```bash
-   php artisan migrate --seed
+   php artisan migrate:fresh --seed
    ```
 
 ### JWT Аутентификация
@@ -88,7 +121,28 @@
 
 ## API
 
-### Аутентификация
+### Аутентификация и пользователи
+
+#### POST /api/register
+Регистрация нового пользователя.
+
+**Параметры запроса:**
+- `name` (string, required)
+- `email` (string, required)
+- `password` (string, required)
+- `password_confirmation` (string, required)
+
+**Пример ответа:**
+```json
+{
+  "message": "User successfully registered",
+  "user": {
+    "id": 1,
+    "name": "User Name",
+    "email": "user@example.com"
+  }
+}
+```
 
 #### POST /api/login
 Авторизация пользователя по email и паролю. Возвращает JWT токен.
@@ -161,5 +215,262 @@
   "access_token": "<new_jwt_token>",
   "token_type": "bearer",
   "expires_in": 3600
+}
+```
+
+#### GET /api/users
+Получение списка пользователей (требуется авторизация админа).
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Параметры запроса:**
+- `page` (integer, optional)
+- `per_page` (integer, optional)
+
+**Пример ответа:**
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "User Name",
+      "email": "user@example.com",
+      "role": "user"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "per_page": 15,
+    "total": 50
+  }
+}
+```
+
+### Годы событий
+
+#### GET /api/event-years
+Получение списка годов с событиями.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "data": [
+    {
+      "year": 2024,
+      "events_count": 10
+    },
+    {
+      "year": 2023,
+      "events_count": 15
+    }
+  ]
+}
+```
+
+### Страницы
+
+#### GET /api/pages
+Получение списка страниц.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "About Us",
+      "slug": "about-us",
+      "content": "Page content here"
+    }
+  ]
+}
+```
+
+#### GET /api/pages/{id}
+Получение конкретной страницы.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "data": {
+    "id": 1,
+    "title": "About Us",
+    "slug": "about-us",
+    "content": "Page content here",
+    "created_at": "2024-03-19 15:00:00",
+    "updated_at": "2024-03-19 15:00:00"
+  }
+}
+```
+
+### Файлы
+
+#### POST /api/files/upload
+Загрузка файла.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+- `Content-Type: multipart/form-data`
+
+**Параметры запроса:**
+- `file` (file, required)
+- `type` (string, required) - тип файла (event, page)
+- `entity_id` (integer, required) - ID связанной сущности
+
+**Пример ответа:**
+```json
+{
+  "data": {
+    "id": 1,
+    "original_name": "document.pdf",
+    "path": "uploads/2024/03/document.pdf",
+    "mime_type": "application/pdf",
+    "size": 1024000
+  }
+}
+```
+
+#### GET /api/files/{id}
+Получение информации о файле.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "data": {
+    "id": 1,
+    "original_name": "document.pdf",
+    "path": "uploads/2024/03/document.pdf",
+    "mime_type": "application/pdf",
+    "size": 1024000,
+    "created_at": "2024-03-19 15:00:00"
+  }
+}
+```
+
+#### DELETE /api/files/{id}
+Удаление файла.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "message": "File successfully deleted"
+}
+```
+
+### События
+
+#### GET /api/events
+Получение списка всех событий.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Параметры запроса:**
+- `page` (integer, optional) - номер страницы
+- `per_page` (integer, optional) - количество элементов на странице
+
+**Пример ответа:**
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "title": "Event Title",
+      "description": "Event Description",
+      "start_date": "2024-03-20 10:00:00",
+      "end_date": "2024-03-20 12:00:00",
+      "created_at": "2024-03-19 15:00:00",
+      "updated_at": "2024-03-19 15:00:00"
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "per_page": 15,
+    "total": 50
+  }
+}
+```
+
+#### POST /api/events
+Создание нового события.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Параметры запроса:**
+- `title` (string, required) - название события
+- `description` (string, required) - описание события
+- `start_date` (datetime, required) - дата и время начала
+- `end_date` (datetime, required) - дата и время окончания
+
+**Пример запроса:**
+```json
+{
+  "title": "New Event",
+  "description": "Event Description",
+  "start_date": "2024-03-20 10:00:00",
+  "end_date": "2024-03-20 12:00:00"
+}
+```
+
+#### GET /api/events/{id}
+Получение информации о конкретном событии.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "data": {
+    "id": 1,
+    "title": "Event Title",
+    "description": "Event Description",
+    "start_date": "2024-03-20 10:00:00",
+    "end_date": "2024-03-20 12:00:00",
+    "created_at": "2024-03-19 15:00:00",
+    "updated_at": "2024-03-19 15:00:00"
+  }
+}
+```
+
+#### PUT /api/events/{id}
+Обновление события.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Параметры запроса:**
+- `title` (string, optional)
+- `description` (string, optional)
+- `start_date` (datetime, optional)
+- `end_date` (datetime, optional)
+
+#### DELETE /api/events/{id}
+Удаление события.
+
+**Заголовки:**
+- `Authorization: Bearer <jwt_token>`
+
+**Пример ответа:**
+```json
+{
+  "message": "Event successfully deleted"
 }
 ```
