@@ -17,7 +17,7 @@ class EventYearFactory extends Factory
      */
     public function definition(): array
     {
-        $year = fake()->unique()->numberBetween(2020, 2030);
+        $year = fake()->unique()->numberBetween(2015, 2025);
         return [
             'year' => $year,
             'title' => fake()->optional(0.8)->sentence(3),
@@ -25,4 +25,4 @@ class EventYearFactory extends Factory
             'is_active' => fake()->boolean(80), // 80% chance of being active
         ];
     }
-} 
+}

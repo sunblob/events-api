@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\EventYear;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class EventYearSeeder extends Seeder
 {
@@ -30,4 +32,4 @@ class EventYearSeeder extends Seeder
         // Create some random event years
         EventYear::factory()->count(3)->create();
     }
-} 
+}
