@@ -17,7 +17,7 @@ class EventYearFactory extends Factory
      */
     public function definition(): array
     {
-        $year = fake()->unique()->numberBetween(2015, 2025);
+        $year = fake()->unique()->numberBetween(2015, 2020);
         return [
             'year' => $year,
             'title' => fake()->optional(0.8)->sentence(3),
