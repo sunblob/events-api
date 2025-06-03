@@ -10,10 +10,10 @@ class EventYearController extends Controller
 {
     public function index()
     {
-        $eventYears = EventYear::all();
+        $eventYears = EventYear::orderBy('year', 'desc')->get();
 
         return response()->json([
-            'data' => $eventYears,  
+            'data' => $eventYears,
             'count' => $eventYears->count(),
         ]);
     }
