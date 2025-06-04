@@ -23,19 +23,8 @@ class PageFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'content' => [
-                'blocks' => [
-                    [
-                        'type' => 'paragraph',
-                        'content' => fake()->paragraph()
-                    ],
-                    [
-                        'type' => 'heading',
-                        'content' => fake()->sentence()
-                    ]
-                ]
-            ],
+            'content' => fake()->randomHtml(3),
             'event_year_id' => EventYear::factory(),
         ];
     }
-} 
+}

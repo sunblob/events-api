@@ -19,18 +19,7 @@ class PageSeeder extends Seeder
             Page::create([
                 'title' => 'Main Page',
                 'slug' => 'main',
-                'content' => [
-                    'blocks' => [
-                        [
-                            'type' => 'heading',
-                            'content' => 'Welcome to ' . $eventYear->year . ' Event'
-                        ],
-                        [
-                            'type' => 'paragraph',
-                            'content' => 'This is the main page for the event. Here you will find all the important information about the event.'
-                        ]
-                    ]
-                ],
+                'content' => "<h1>Welcome to " . $eventYear->year . " Event</h1><p>This is the main page for the event. Here you will find all the important information about the event.</p>",
                 'event_year_id' => $eventYear->id,
             ]);
 
@@ -38,18 +27,7 @@ class PageSeeder extends Seeder
             Page::create([
                 'title' => 'About',
                 'slug' => 'about',
-                'content' => [
-                    'blocks' => [
-                        [
-                            'type' => 'heading',
-                            'content' => 'About the Event'
-                        ],
-                        [
-                            'type' => 'paragraph',
-                            'content' => 'Learn more about our event and its history.'
-                        ]
-                    ]
-                ],
+                'content' => "<h1>About the Event</h1><p>Learn more about our event and its history.</p>",
                 'event_year_id' => $eventYear->id,
             ]);
 
@@ -59,4 +37,4 @@ class PageSeeder extends Seeder
             ]);
         });
     }
-} 
+}

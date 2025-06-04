@@ -16,7 +16,7 @@ class FileController
     public function upload(Request $request)
     {
         $request->validate([
-            'file' => 'required|file|max:10240', // max 10MB
+            'file' => 'required|file',
             'page_id' => 'nullable|exists:pages,id',
         ]);
 

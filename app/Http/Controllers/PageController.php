@@ -34,6 +34,21 @@ class PageController extends Controller
         ]);
     }
 
+    public function showBySlug(string $slug)
+    {
+        $page = Page::where('slug', $slug)->first();
+
+        if (!$page) {
+            throw new NotFoundException('Page not found');
+        }
+
+        $page->load('files');
+
+        return response()->json([
+            'data' => $page,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

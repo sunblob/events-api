@@ -11,10 +11,12 @@ use App\Http\Controllers\UserController;
 Route::post('auth/login', [AuthController::class, 'login']);
 
 Route::get('event-years', [EventYearController::class, 'index']);
-Route::get('event-years/{id}', [EventYearController::class, 'show']);
+Route::get('event-years/{year}', [EventYearController::class, 'show']);
 
 Route::get('pages', [PageController::class, 'index']);
 Route::get('pages/{id}', [PageController::class, 'show']);
+Route::get('pages/slug/{slug}', [PageController::class, 'showBySlug']);
+
 
 Route::get('files/list', [FileController::class, 'list']);
 Route::get('files/file/{filename}', [FileController::class, 'getFile']);

@@ -33,9 +33,9 @@ class EventYearController extends Controller
         ]);
     }
 
-    public function show(string $id)
+    public function show(string $year)
     {
-        $eventYear = EventYear::find($id);
+        $eventYear = EventYear::where('year', $year)->first();
 
         if (!$eventYear) {
             throw new NotFoundException('Event year not found');
