@@ -41,7 +41,7 @@ class EventYearController extends Controller
             throw new NotFoundException('Event year not found');
         }
 
-        $eventYear->load('pages');
+        $eventYear->load(['pages', 'users']);
 
         return response()->json([
             'data' => $eventYear,
@@ -96,4 +96,37 @@ class EventYearController extends Controller
         ]);
     }
 
+    public function addUserToEventYear(string $id, string $userId)
+    {
+        $eventYear = EventYear::find($id);
+
+        if (!$eventYear) {
+            throw new NotFoundException('Event year not found');
+        }
+
+        $eventYear->users()->attach($userId);
+
+        $eventYear->load('users');
+
+        return response()->json([
+            'data' => $eventYear,
+        ]);
+    }
+
+    public function removeUserFromEventYear(string $id, string $userId)
+    {
+        $eventYear = EventYear::find($id);
+
+        if (!$eventYear) {
+            throw new NotFoundException('Event year not found');
+        }
+
+        $eventYear->users()->detach($userId);
+
+        $eventYear->load('users');
+
+        return response()->json([
+            'data' => $eventYear,
+        ]);
+    }
 }

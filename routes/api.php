@@ -44,10 +44,13 @@ Route::middleware(['auth:api', 'admin'])->group(function () {
   Route::put('users/{id}', [UserController::class, 'update']);
   Route::delete('users/{id}', [UserController::class, 'destroy']);
 
+
   // Event year routes
   Route::post('event-years', [EventYearController::class, 'store']);
   Route::put('event-years/{id}', [EventYearController::class, 'update']);
   Route::delete('event-years/{id}', [EventYearController::class, 'destroy']);
+  Route::post('event-years/{id}/add-user/{userId}', [EventYearController::class, 'addUserToEventYear']);
+  Route::post('event-years/{id}/remove-user/{userId}', [EventYearController::class, 'removeUserFromEventYear']);
 
   // Page routes
   Route::post('pages', [PageController::class, 'store']);
