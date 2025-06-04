@@ -585,3 +585,53 @@ Delete event.
     "message": "Event successfully deleted"
 }
 ```
+
+### Event Years User Management
+
+#### POST /api/event-years/{id}/users/{userId}
+
+Add user to event year.
+
+**Headers:**
+- `Authorization: Bearer <jwt_token>`
+
+**Example Response:**
+```json
+{
+    "data": {
+        "id": 1,
+        "year": 2024,
+        "title": "Event Title",
+        "description": "Event Description",
+        "users": [
+            {
+                "id": 1,
+                "name": "User Name",
+                "email": "user@example.com"
+            }
+        ]
+    }
+}
+```
+
+#### DELETE /api/event-years/{id}/users/{userId}
+
+Remove user from event year.
+
+**Headers:**
+- `Authorization: Bearer <jwt_token>`
+
+**Example Response:**
+```json
+{
+    "data": {
+        "id": 1,
+        "year": 2024,
+        "title": "Event Title",
+        "description": "Event Description",
+        "users": []
+    }
+}
+```
+
+Note: The GET /api/event-years/{id} endpoint now also includes the users array in its response.
