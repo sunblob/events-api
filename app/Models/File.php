@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class File extends Model
 {
-    protected $fillable = ['filename', 'path', 'mimetype', 'page_id'];
+    protected $fillable = ['filename', 'path', 'mimetype', 'is_editor_only', 'page_id'];
 
     public function page(): BelongsTo
     {

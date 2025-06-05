@@ -17,7 +17,8 @@ class FileController
     {
         $request->validate([
             'file' => 'required|file',
-            'page_id' => 'nullable|exists:pages,id',
+            'page_id' => 'required|exists:pages,id',
+            'is_editor_only' => 'required|string',
         ]);
 
         if (!$request->hasFile('file')) {
@@ -38,6 +39,7 @@ class FileController
             'path' => $path,
             'mimetype' => $file->getMimeType(),
             'page_id' => $request->page_id,
+            'is_editor_only' => $request->is_editor_only === 'true',
         ]);
 
         return response()->json([
@@ -50,7 +52,8 @@ class FileController
                 'url' => Storage::url($path),
                 'size' => $file->getSize(),
                 'mime_type' => $file->getMimeType(),
-                'page_id' => $fileRecord->page_id
+                'page_id' => $fileRecord->page_id,
+                'is_editor_only' => $fileRecord->is_editor_only ? true : false,
             ]
         ], 201);
     }
@@ -77,14 +80,15 @@ class FileController
     public function detachFromPage($fileId)
     {
         $file = File::find($fileId);
+
         if (!$file) {
             throw new NotFoundException('File not found');
         }
 
-        $file->update(['page_id' => null]);
+        $file->delete();
 
         return response()->json([
-            'message' => 'File detached from page successfully',
+            'message' => 'File deleted from page successfully',
             'file' => $file
         ]);
     }
