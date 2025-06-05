@@ -23,8 +23,22 @@ class PageFactory extends Factory
         return [
             'title' => $title,
             'slug' => Str::slug($title),
-            'content' => fake()->randomHtml(3),
+            'content' => $this->generateCleanHtml(3),
             'event_year_id' => EventYear::factory(),
         ];
     }
+
+    private function generateCleanHtml(): string
+{
+    return <<<HTML
+<h2>{$this->faker->sentence(4)}</h2>
+<p>{$this->faker->paragraph(4)}</p>
+<ul>
+  <li>{$this->faker->sentence()}</li>
+  <li>{$this->faker->sentence()}</li>
+  <li>{$this->faker->sentence()}</li>
+</ul>
+<p><strong>{$this->faker->sentence(2)}</strong></p>
+HTML;
+}
 }

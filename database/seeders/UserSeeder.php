@@ -31,6 +31,15 @@ class UserSeeder extends Seeder
                 'role' => 'editor',
                 'created_at' => now(),
                 'updated_at' => now()
+            ],
+
+            [
+                'name' => 'Editor User 2',
+                'email' => 'redactor2@example.com',
+                'password' => bcrypt('password'),
+                'role' => 'editor',
+                'created_at' => now(),
+                'updated_at' => now()
             ]
         ]);
     }
