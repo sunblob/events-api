@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('mimetype', 45);
             $table->foreignId('page_id')->constrained('pages')->onDelete('cascade');
             $table->timestamps();
+
         });
     }
 

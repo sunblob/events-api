@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::table('files', function (Blueprint $table) {
             $table->boolean('is_editor_only')->default(false);
+            $table->string('originalName');
         });
     }
 
@@ -22,6 +23,7 @@ return new class extends Migration {
     {
         Schema::table('files', function (Blueprint $table) {
             $table->dropColumn('is_editor_only');
+            $table->dropColumn('originalName');
         });
     }
 };

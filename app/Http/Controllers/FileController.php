@@ -40,6 +40,7 @@ class FileController
             'mimetype' => $file->getMimeType(),
             'page_id' => $request->page_id,
             'is_editor_only' => $request->is_editor_only === 'true',
+            'originalName' => $originalName,
         ]);
 
         return response()->json([
