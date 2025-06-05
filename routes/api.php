@@ -17,6 +17,7 @@ Route::get('event-years/year/{year}', [EventYearController::class, 'showByYear']
 Route::get('pages', [PageController::class, 'index']);
 Route::get('pages/{id}', [PageController::class, 'show']);
 Route::get('pages/slug/{slug}', [PageController::class, 'showBySlug']);
+Route::get('pages/year/{year}/slug/{slug}', [PageController::class, 'showByYearAndSlug']);
 
 
 Route::get('files/list', [FileController::class, 'list']);

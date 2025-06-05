@@ -49,6 +49,23 @@ class PageController extends Controller
         ]);
     }
 
+    public function showByYearAndSlug(string $year, string $slug)
+    {
+        $page = Page::whereHas('eventYear', function ($query) use ($year) {
+            $query->where('year', $year);
+        })->where('slug', $slug)->first();
+
+        if (!$page) {
+            throw new NotFoundException('Page not found');
+        }
+
+        $page->load(['files', 'eventYear']);
+
+        return response()->json([
+            'data' => $page,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
