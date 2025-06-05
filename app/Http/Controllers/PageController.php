@@ -53,7 +53,7 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'content' => 'nullable|string|json',
+            'content' => 'nullable|string',
             'event_year_id' => 'required|exists:event_years,id',
         ]);
 
@@ -79,7 +79,7 @@ class PageController extends Controller
 
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
-            'content' => 'nullable|string|json',
+            'content' => 'nullable|string',
             'event_year_id' => 'required|exists:event_years,id',
         ]);
 

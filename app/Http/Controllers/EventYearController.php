@@ -33,7 +33,22 @@ class EventYearController extends Controller
         ]);
     }
 
-    public function show(string $year)
+    public function show(string $id)
+    {
+        $eventYear = EventYear::find($id);
+
+        if (!$eventYear) {
+            throw new NotFoundException('Event year not found');
+        }
+
+        $eventYear->load(['pages', 'users']);
+
+        return response()->json([
+            'data' => $eventYear,
+        ]);
+    }
+
+    public function showByYear(string $year)
     {
         $eventYear = EventYear::where('year', $year)->first();
 

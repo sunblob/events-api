@@ -11,7 +11,8 @@ use App\Http\Controllers\UserController;
 Route::post('auth/login', [AuthController::class, 'login']);
 
 Route::get('event-years', [EventYearController::class, 'index']);
-Route::get('event-years/{year}', [EventYearController::class, 'show']);
+Route::get('event-years/{id}', [EventYearController::class, 'show']);
+Route::get('event-years/year/{year}', [EventYearController::class, 'showByYear']);
 
 Route::get('pages', [PageController::class, 'index']);
 Route::get('pages/{id}', [PageController::class, 'show']);
