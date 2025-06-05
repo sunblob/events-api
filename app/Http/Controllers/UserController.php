@@ -14,9 +14,18 @@ final class UserController extends Controller
     public function index()
     {
         $users = User::all();
-
         return response()->json([
             'data' => $users,
+            'count' => $users->count(),
+        ]);
+    }
+
+    public function editors()
+    {
+        $editors = User::where('role', 'editor')->get();
+        return response()->json([
+            'data' => $editors,
+            'count' => $editors->count(),
         ]);
     }
 
@@ -51,7 +60,7 @@ final class UserController extends Controller
 
         return response()->json([
             'data' => $user,
-        ], 201);
+        ]);
     }
 
     public function update(Request $request, string $id)
@@ -104,6 +113,6 @@ final class UserController extends Controller
 
         return response()->json([
             'message' => 'User deleted successfully',
-        ], 200);
+        ]);
     }
 }

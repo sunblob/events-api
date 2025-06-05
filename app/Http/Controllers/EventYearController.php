@@ -24,6 +24,7 @@ class EventYearController extends Controller
             'year' => 'required|integer|unique:event_years,year',
             'title' => 'required|string',
             'description' => 'nullable|string',
+            'editor_id' => 'nullable|exists:users,id',
         ]);
 
         $eventYear = EventYear::create($validated);
@@ -75,6 +76,7 @@ class EventYearController extends Controller
             'year' => 'nullable|integer',
             'title' => 'nullable|string',
             'description' => 'nullable|string',
+            'editor_id' => 'nullable|exists:users,id',
         ]);
 
         $updated = $eventYear->update($validated);
@@ -142,6 +144,34 @@ class EventYearController extends Controller
 
         return response()->json([
             'data' => $eventYear,
+        ]);
+    }
+
+    public function removeEditor(string $id)
+    {
+        $eventYear = EventYear::find($id);
+
+        if (!$eventYear) {
+            throw new NotFoundException('Event year not found');
+        }
+
+        $eventYear->editor_id = null;
+        $eventYear->save();
+
+        return response()->json([
+            'data' => $eventYear,
+        ]);
+    }
+
+    public function getEditorEvents(string $id)
+    {
+        $events = EventYear::where('editor_id', $id)
+            ->orderBy('year', 'desc')
+            ->get();
+
+        return response()->json([
+            'data' => $events,
+            'count' => $events->count(),
         ]);
     }
 }

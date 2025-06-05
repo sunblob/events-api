@@ -13,6 +13,7 @@ Route::post('auth/login', [AuthController::class, 'login']);
 Route::get('event-years', [EventYearController::class, 'index']);
 Route::get('event-years/{id}', [EventYearController::class, 'show']);
 Route::get('event-years/year/{year}', [EventYearController::class, 'showByYear']);
+Route::get('event-years/editor/{id}/events', [EventYearController::class, 'getEditorEvents']);
 
 Route::get('pages', [PageController::class, 'index']);
 Route::get('pages/{id}', [PageController::class, 'show']);
@@ -43,6 +44,7 @@ Route::middleware('auth:api')->group(function () {
 Route::middleware(['auth:api', 'admin'])->group(function () {
   // User routes
   Route::get('users', [UserController::class, 'index']);
+  Route::get('users/editors', [UserController::class, 'editors']);
   Route::get('users/{id}', [UserController::class, 'show']);
   Route::post('users', [UserController::class, 'store']);
   Route::put('users/{id}', [UserController::class, 'update']);
@@ -55,6 +57,7 @@ Route::middleware(['auth:api', 'admin'])->group(function () {
   Route::delete('event-years/{id}', [EventYearController::class, 'destroy']);
   Route::post('event-years/{id}/add-user/{userId}', [EventYearController::class, 'addUserToEventYear']);
   Route::post('event-years/{id}/remove-user/{userId}', [EventYearController::class, 'removeUserFromEventYear']);
+  Route::post('event-years/{id}/remove-editor', [EventYearController::class, 'removeEditor']);
 
   // Page routes
   Route::post('pages', [PageController::class, 'store']);
