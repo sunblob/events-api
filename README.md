@@ -467,7 +467,7 @@ Delete file.
 }
 ```
 
-### Events
+### Events API
 
 #### GET /api/events
 
@@ -481,9 +481,11 @@ Get list of all events.
 
 -   `page` (integer, optional) - page number
 -   `per_page` (integer, optional) - items per page
+-   `search` (string, optional) - search by title
+-   `start_date` (date, optional) - filter by start date
+-   `end_date` (date, optional) - filter by end date
 
 **Example Response:**
-
 ```json
 {
     "data": [
@@ -509,7 +511,17 @@ Get list of all events.
 
 Create new event.
 
-**Headers:**
+**Request Body:**
+```json
+{
+    "title": "Event Title",
+    "description": "Event Description",
+    "start_date": "2024-03-20",
+    "end_date": "2024-03-21",
+    "location": "Event Location",
+    "max_participants": 100
+}
+```
 
 -   `Authorization: Bearer <jwt_token>`
 
@@ -524,10 +536,17 @@ Create new event.
 
 ```json
 {
-    "title": "New Event",
-    "description": "Event Description",
-    "start_date": "2024-03-20 10:00:00",
-    "end_date": "2024-03-20 12:00:00"
+    "message": "Event created successfully",
+    "data": {
+        "id": 1,
+        "title": "Event Title",
+        "description": "Event Description",
+        "start_date": "2024-03-20",
+        "end_date": "2024-03-21",
+        "location": "Event Location",
+        "max_participants": 100,
+        "created_at": "2024-03-19T10:00:00Z"
+    }
 }
 ```
 
@@ -540,17 +559,24 @@ Get specific event information.
 -   `Authorization: Bearer <jwt_token>`
 
 **Example Response:**
-
 ```json
 {
     "data": {
         "id": 1,
         "title": "Event Title",
         "description": "Event Description",
-        "start_date": "2024-03-20 10:00:00",
-        "end_date": "2024-03-20 12:00:00",
-        "created_at": "2024-03-19 15:00:00",
-        "updated_at": "2024-03-19 15:00:00"
+        "start_date": "2024-03-20",
+        "end_date": "2024-03-21",
+        "location": "Event Location",
+        "max_participants": 100,
+        "created_at": "2024-03-19T10:00:00Z",
+        "participants": [
+            {
+                "id": 1,
+                "name": "User Name",
+                "email": "user@example.com"
+            }
+        ]
     }
 }
 ```
@@ -559,27 +585,74 @@ Get specific event information.
 
 Update event.
 
-**Headers:**
+**Request Body:**
+```json
+{
+    "title": "Updated Event Title",
+    "description": "Updated Event Description",
+    "start_date": "2024-03-20",
+    "end_date": "2024-03-21",
+    "location": "Updated Location",
+    "max_participants": 150
+}
+```
 
--   `Authorization: Bearer <jwt_token>`
-
-**Request Parameters:**
-
--   `title` (string, optional)
--   `description` (string, optional)
--   `start_date` (datetime, optional)
--   `end_date` (datetime, optional)
+**Example Response:**
+```json
+{
+    "message": "Event updated successfully",
+    "data": {
+        "id": 1,
+        "title": "Updated Event Title",
+        "description": "Updated Event Description",
+        "start_date": "2024-03-20",
+        "end_date": "2024-03-21",
+        "location": "Updated Location",
+        "max_participants": 150,
+        "updated_at": "2024-03-19T11:00:00Z"
+    }
+}
+```
 
 #### DELETE /api/events/{id}
 
 Delete event.
 
-**Headers:**
+**Example Response:**
+```json
+{
+    "message": "Event deleted successfully"
+}
+```
 
--   `Authorization: Bearer <jwt_token>`
+#### POST /api/events/{id}/participants
+
+Add participant to event.
+
+**Request Body:**
+```json
+{
+    "user_id": 1
+}
+```
 
 **Example Response:**
+```json
+{
+    "message": "Participant added successfully",
+    "data": {
+        "event_id": 1,
+        "user_id": 1,
+        "joined_at": "2024-03-19T12:00:00Z"
+    }
+}
+```
 
+#### DELETE /api/events/{id}/participants/{userId}
+
+Remove participant from event.
+
+**Example Response:**
 ```json
 {
     "message": "Event successfully deleted"
@@ -635,3 +708,64 @@ Remove user from event year.
 ```
 
 Note: The GET /api/event-years/{id} endpoint now also includes the users array in its response.
+
+## Project Structure
+
+```
+├── app
+│   ├── Http
+│   │   ├── Controllers      # API Controllers
+│   │   ├── Requests        # Request Validation
+│   │   └── Resources       # API Resources
+│   ├── Models              # Data Models
+│   ├── Services           # Business Logic
+│   └── Exceptions         # Error Handling
+├── database
+│   ├── migrations         # Database Migrations
+│   └── seeders           # Database Seeders
+├── routes
+│   └── api.php           # API Routes
+├── tests                 # Tests
+└── storage               # Uploaded Files
+```
+
+## Events
+
+### Main Endpoints
+
+#### GET /api/events
+Get list of all events with pagination
+
+#### POST /api/events
+Create a new event
+
+#### GET /api/events/{id}
+Get specific event information
+
+#### PUT /api/events/{id}
+Update event
+
+#### DELETE /api/events/{id}
+Delete event
+
+### Participants Management
+
+#### POST /api/events/{id}/participants
+Add participant to event
+
+#### DELETE /api/events/{id}/participants/{userId}
+Remove participant from event
+
+## Testing
+
+Run all tests:
+
+```bash
+php artisan test
+```
+
+Run specific test:
+
+```bash
+php artisan test --filter TestName
+```
