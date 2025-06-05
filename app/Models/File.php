@@ -1,13 +1,18 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class File extends Model
+final class File extends Model
 {
-    protected $fillable = ['filename', 'path', 'mimetype', 'page_id'];
+    protected $fillable = ['filename', 'path', 'mimetype', 'page_id', 'is_editor_only'];
+
+    protected $casts = [
+        'is_editor_only' => 'boolean',
+    ];
 
     public function page(): BelongsTo
     {

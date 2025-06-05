@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('path');
             $table->string('mimetype', 45);
             $table->foreignId('page_id')->constrained('pages')->onDelete('cascade');
+            $table->boolean('is_editor_only')->default(false);
             $table->timestamps();
         });
     }

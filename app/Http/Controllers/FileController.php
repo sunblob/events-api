@@ -18,6 +18,7 @@ class FileController
         $request->validate([
             'file' => 'required|file',
             'page_id' => 'nullable|exists:pages,id',
+            'is_editor_only' => 'required|boolean',
         ]);
 
         if (!$request->hasFile('file')) {
@@ -38,6 +39,7 @@ class FileController
             'path' => $path,
             'mimetype' => $file->getMimeType(),
             'page_id' => $request->page_id,
+            'is_editor_only' => $request->is_editor_only,
         ]);
 
         return response()->json([
