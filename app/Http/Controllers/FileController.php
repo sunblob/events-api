@@ -29,6 +29,11 @@ class FileController
         $originalName = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $fileName = Str::random(40) . '.' . $extension;
+        $mimetype = $file->getMimeType();
+
+        if (strlen($mimetype) > 45) {
+            $mimetype = $extension;
+        }
 
         // Store file in the 'public' disk under 'uploads' directory
         $path = $file->storeAs('uploads', $fileName, 'public');
@@ -37,7 +42,7 @@ class FileController
         $fileRecord = File::create([
             'filename' => $fileName,
             'path' => $path,
-            'mimetype' => $file->getMimeType(),
+            'mimetype' => $mimetype,
             'page_id' => $request->page_id,
             'is_editor_only' => $request->is_editor_only === 'true',
             'originalName' => $originalName,
