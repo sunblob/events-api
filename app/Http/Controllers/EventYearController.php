@@ -10,7 +10,7 @@ class EventYearController extends Controller
 {
     public function index()
     {
-        $eventYears = EventYear::orderBy('year', 'desc')->get()->load('users');
+        $eventYears = EventYear::orderBy('year', 'desc')->get();
 
         return response()->json([
             'data' => $eventYears,
@@ -36,7 +36,7 @@ class EventYearController extends Controller
 
     public function show(string $id)
     {
-        $eventYear = EventYear::find($id);
+        $eventYear = EventYear::find($id)->load('users', 'pages');
 
         if (!$eventYear) {
             throw new NotFoundException('Event year not found');
@@ -78,6 +78,11 @@ class EventYearController extends Controller
             'description' => 'nullable|string',
             'editor_id' => 'nullable|exists:users,id',
         ]);
+
+        if ($request->has('editor_id')) {
+            $eventYear->users()->detach();
+            $eventYear->users()->attach($request->editor_id);
+        }
 
         $updated = $eventYear->update($validated);
 
