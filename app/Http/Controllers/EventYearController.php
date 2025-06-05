@@ -10,7 +10,7 @@ class EventYearController extends Controller
 {
     public function index()
     {
-        $eventYears = EventYear::orderBy('year', 'desc')->get();
+        $eventYears = EventYear::orderBy('year', 'desc')->get()->load('users');
 
         return response()->json([
             'data' => $eventYears,
@@ -165,9 +165,19 @@ class EventYearController extends Controller
 
     public function getEditorEvents(string $id)
     {
-        $events = EventYear::where('editor_id', $id)
-            ->orderBy('year', 'desc')
-            ->get();
+
+        $user = auth()->user();
+
+
+        if ($user->role === 'admin') {
+            $events = EventYear::all();
+        } else {
+            $events = EventYear::whereHas('users', function ($query) use ($user) {
+                $query->where('users.id', $user->id);
+            })
+                ->orderBy('year', 'desc')
+                ->get();
+        }
 
         return response()->json([
             'data' => $events,

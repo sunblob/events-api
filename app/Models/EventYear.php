@@ -14,7 +14,7 @@ class EventYear extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['year', 'title', 'description', 'is_active', 'editor_id'];
+    protected $fillable = ['year', 'title', 'description', 'is_active'];
 
     public function pages(): HasMany
     {
@@ -26,8 +26,4 @@ class EventYear extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function editor(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'editor_id');
-    }
 }
