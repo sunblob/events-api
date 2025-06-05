@@ -40,8 +40,8 @@ Route::middleware('auth:api')->group(function () {
   Route::post('auth/refresh', [AuthController::class, 'refresh']);
 });
 
-Route::middleware(['auth:api'])->group(function () {
-  Route::get('event-years/editor/{id}', [EventYearController::class, 'getEditorEvents']);
+Route::middleware('auth:api')->group(function () {
+  Route::get('event-years/editor/all', [EventYearController::class, 'getEditorEvents']);
 });
 
 Route::middleware(['auth:api', 'admin'])->group(function () {

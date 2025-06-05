@@ -36,7 +36,7 @@ class EventYearController extends Controller
 
     public function show(string $id)
     {
-        $eventYear = EventYear::find($id)->load('users', 'pages');
+        $eventYear = EventYear::find($id);
 
         if (!$eventYear) {
             throw new NotFoundException('Event year not found');
@@ -168,14 +168,12 @@ class EventYearController extends Controller
         ]);
     }
 
-    public function getEditorEvents(string $id)
+    public function getEditorEvents()
     {
-
         $user = auth()->user();
 
-
         if ($user->role === 'admin') {
-            $events = EventYear::all();
+            $events = EventYear::orderBy('year', 'desc')->get();
         } else {
             $events = EventYear::whereHas('users', function ($query) use ($user) {
                 $query->where('users.id', $user->id);
