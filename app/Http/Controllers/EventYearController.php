@@ -29,6 +29,10 @@ class EventYearController extends Controller
 
         $eventYear = EventYear::create($validated);
 
+        if ($request->has('editor_id')) {
+            $eventYear->users()->attach($request->editor_id);
+        }
+
         return response()->json([
             'data' => $eventYear,
         ]);
