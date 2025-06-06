@@ -135,39 +135,39 @@
 
 ---
 
-## Работа с файлами
+## Working with Files
 
-[Документация по файловой системе Laravel](https://laravel.com/docs/filesystem)
+[Laravel Filesystem Documentation](https://laravel.com/docs/filesystem)
 
-**Основные команды и действия:**
+**Main commands and actions:**
 
-1. Создать сидер для файлов:
+1. Create a seeder for files:
     ```bash
     php artisan make:seeder FilesTableSeeder
     ```
-2. Создать миграцию для таблицы файлов:
+2. Create a migration for the files table:
     ```bash
     php artisan make:migration create_files_table
     ```
-3. Загрузить файл через API (см. раздел "Files" выше):
+3. Upload a file via API (see "Files" section above):
     - POST /api/files/upload
-    - Требуется авторизация и multipart/form-data
-4. Получить информацию о файле:
+    - Requires authentication and multipart/form-data
+4. Get file information:
     - GET /api/files/{id}
-5. Удалить файл:
+5. Delete file:
     - DELETE /api/files/{id}
 
-**Полезные artisan-команды:**
+**Useful artisan commands:**
 
--   Очистить storage:
+-   Clear storage:
     ```bash
     php artisan storage:link
     ```
--   Очистить кэш файловой системы:
+-   Clear filesystem cache:
     ```bash
     php artisan cache:clear
     ```
--   Проверить доступность storage:
+-   Check storage availability:
     ```bash
     ls -la storage/app/public
     ```
